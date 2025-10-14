@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drime</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #000000, #2c2c2c);
+        color: #f1f1f1;
+        padding: 40px 20px;
+    }
+
+    h1 {
+        font-size: 2.8rem;
+        letter-spacing: -1px;
+        background: linear-gradient(90deg, #ffffff, #a8a8a8);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.3em;
+        text-align: center;
+    }
+
+    p {
+        text-align: center;
+        color: #d1d1d1;
+        margin-bottom: 2em;
+        font-size: 1.05rem;
+    }
+
+    form {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(16px);
+        padding: 2.5rem 2.8rem;
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        width: 100%;
+        max-width: 420px;
+        transition: all 0.3s ease;
+    }
+
+    form:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #e1e1e1;
+        letter-spacing: 0.3px;
+        font-size: 0.95rem;
+    }
+
+    select {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.1));
+        color: #f9f9f9;
+        font-size: 1rem;
+        margin-bottom: 1.4em;
+        outline: none;
+        appearance: none;
+        transition: all 0.25s ease;
+    }
+
+    select:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    select:focus {
+        border-color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+    }
+
+    option {
+        color: #111;
+        background: #f9f9f9;
+    }
+
+    @media (max-width: 480px) {
+        h1 { font-size: 2.2rem; }
+        form { padding: 2rem; border-radius: 16px; }
+    }
+
+</style>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            let finalSelectedCountry = [];
+
+            const countrySelect = document.getElementById("country");
+
+            countrySelect.addEventListener("change", async() => {
+                const selectedCountry = countrySelect.value
+
+                finalSelectedCountry = []
+                finalSelectedCountry.push(selectedCountry);
+                console.log(finalSelectedCountry)
+
+                try {
+
+                    const response = await fetch("/getStates", {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            country: selectedCountry
+                        })
+                    })
+
+                    const data = await response.json();        
+
+                    const stateSelect = document.getElementById("state");
+
+                    stateSelect.innerHTML = '<option value="">Select State</option>'
+
+                    const citySelect = document.getElementById("city");
+
+                    citySelect.innerHTML = '<option value="">Select a state first</option>'
+
+                    
+                    
+                    
+
+                    data.listOfStates.forEach(state => {
+                        const option = document.createElement("option");
+                        option.value = state;
+                        option.textContent = state;
+                        stateSelect.appendChild(option);
+                    });
+
+
+                }   catch(error) {
+                        console.error("Error:", error);
+                }
+
+            });
+
+
+            //code for state update
+
+            const stateSelect = document.getElementById("state");
+
+            stateSelect.addEventListener("change", async() => {
+
+                const selectedState = stateSelect.value
+                
+
+                try {
+
+                    const response = await fetch("/getCities", {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            country: finalSelectedCountry[0],
+                            state: selectedState
+                        })
+                    })
+
+                    const data = await response.json();        
+
+                    const citySelect = document.getElementById("city");
+
+                    citySelect.innerHTML = '<option value="">Select City</option>'
+
+                    data.listOfCities.forEach(city => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        citySelect.appendChild(option);
+                    });
+                    
+
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            
+        });
+
+        });
+
+       
+    </script>
+    
+
+</head>
+<body>
+    <h1>Hello</h1>
+    <p>Welcome to Drime</p>
+
+    <form>
+        <label for="country">Country</label>
+
+        <select id="country" name="country">
+            <option value="">select Country</option>
+            <% countries.forEach((country) => { %>
+                <option value="<%= country %>"><%= country %></option>
+            <% }) %>
+        </select>
+
+        <label for="state">State</label>
+        <select id="state" name="state">
+            <option  value="">Select a country first</option>
+        </select>
+
+        <label for="city">City</label>
+        <select id="city" name="city">
+            <option  value="">Select a state first</option>
+        </select>
+
+    </form>
+</body>
+</html>
