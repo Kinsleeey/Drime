@@ -4,6 +4,10 @@ import axios from "axios"
 
 const app = express();
 const port = 3000;
+const weatherAPIKey = "fa3216fa33934de8b13114452251610";
+const openCageAPIKey = "599eeac8a3054195be256b18401aaa43";
+
+let choosenLocation = [];
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -69,10 +73,51 @@ app.post("/getCities", async (req, res) => {
 
 })
 
+app.post("/location", (req, res) => {
+
+    choosenLocation = [];
+
+    choosenLocation.push(req.body.city);
+    choosenLocation.push(req.body.country);
+
+    res.redirect("/weather")
+})
 
 
-app.get("/weather", (req, res) => {
-    res.render("weather.ejs")
+app.get("/weather", async(req, res) => {
+
+    try {
+
+        const response1 = await axios.get(`https://api.opencagedata.com/geocode/v1/json?key=${openCageAPIKey}&q=${choosenLocation[0]},+${choosenLocation[1]}&no_annotations=1&pretty=1`);
+        
+        const lat = response1.data.results[0].geometry.lat;
+        const lng = response1.data.results[0].geometry.lng;
+
+        const response2 = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${weatherAPIKey}&q=${lat},${lng}&days=7&aqi=yes`);
+
+        const result = {
+            city: response2.data.location.name,
+            time: response2.data.location.localtime,
+            currentWeatherDes: response2.data.current.condition.text,
+            currentWeatherIcon: response2.data.current.condition.icon,
+            currentWeatherTemp: response2.data.current.temp_c,
+            dailySummary: response2.data.forecast.forecastday.map((day) => {
+                return {
+                    time: day.date,
+                    weatherDes: day.day.condition.text,
+                    weatherIcon: day.day.condition.icon,
+                    maxWeatherTemp: day.day.maxtemp_c,
+                    minWeatherTemp: day.day.mintemp_c,
+                } 
+            })
+        }
+        console.log(response2.data);
+        res.render("weather.ejs", { result: result })
+
+    }   catch(error) {
+        res.render("weather.ejs", { error: error.message })
+    }
+
 })
 
 
