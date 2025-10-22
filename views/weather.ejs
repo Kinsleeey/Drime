@@ -1,172 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drime</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-                }
-
-        body {
-            color: black;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .parent {
-            width: 90%;
-            max-width: 390px;
-            border: 1px solid black;
-            border-radius: 10px;
-            margin: 1rem auto;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 1.5rem;
-        }
-        header span {
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-            justify-content: center;
-        }
-        .logo-div {
-            margin-right: 0.3rem;
-            display: flex;
-        }
-
-        .location {
-            background: black;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            border: none;
-            font-size: 12px;
-            text-decoration: none;
-        }
-
-        .select {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            justify-content: center;
-            border-radius: 5rem;
-            padding: 5px 20px;
-            background-color: #F7F7F8;
-            border: 1px solid #E5E5E7;
-            width: 50%;
-            margin: 0 auto 1.5rem auto;
-        }
-        .tab {
-            background: #F7F7F8;;
-            border-radius: 5rem;
-            color: black;
-            padding: 5px 7px;
-            border: white;
-            display: flex;
-            align-items: center;
-        }
-        .active {
-            border: black;
-            background: black;
-            color: white;
-        }
-        .tab:hover {
-            background: black;
-            color: white;
-        }
-        .week {
-            margin: 1.5rem;
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .today {
-            text-align: center;
-            background-color: #F7F7F8;
-            width: 70%;
-            margin: 0 auto 0 auto;
-            border: 1px solid#E5E5E7;
-            border-radius: 30px;
-            font-size: 10px;
-            padding: 1rem;
-        }
-        .weather-icon {
-            width: 100px;
-            height: 100px;
-
-        }
-        .weather-icon img {
-            width: 115%;
-            height: 115%;
-            position: relative;
-            left: -7%;
-            top: -2%;
-        }
-        .flex {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-
-        .today h1 {
-            font-size: 40px;
-        }
-        .today p {
-            color: #4B4B4D
-        }
-
-        .day {
-            font-size: 10px;
-            width: 100%;
-            border: 1px solid#E5E5E7;    
-            border-radius: 15px;
-            display: flex;
-            padding: 0.5rem;
-            justify-content:space-between;
-            align-items: center;
-        }
-        
-        .day .two {
-            width: 40%;
-            text-align: center;
-        }
-        .day .one {
-            width: 30px;
-            height: 30px;
-        }
-        .one img {
-            width: 125%;
-            height: 125%;
-            position: relative;
-            left: -10%;
-            top: -10%;
-        }
-        .loc-time {
-            margin: 0.3rem;
-            display: flex;
-            justify-content: space-around;
-        }
-    </style>
-</head>
-<body>
-    <div class="parent">
-        <header>
-            <span>
-                <div class="logo-div"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-fading-icon lucide-clock-fading"><path d="M12 2a10 10 0 0 1 7.38 16.75"/><path d="M12 6v6l4 2"/><path d="M2.5 8.875a10 10 0 0 0-.5 3"/><path d="M2.83 16a10 10 0 0 0 2.43 3.4"/><path d="M4.636 5.235a10 10 0 0 1 .891-.857"/><path d="M8.644 21.42a10 10 0 0 0 7.631-.38"/></svg></div><h4>DRIME</h4>
-            </span>
-            <a class="location" href="/">Location</a>
-        </header>
+<%- include('top.ejs') %>
 
         <section>
             <div class="today">
@@ -190,12 +22,11 @@
             <div class="week">
                 <%  result.dailySummary.slice(1).forEach((day) => { %>
                         <div class="day">
-                            <div class="one"><img src="<%= day.weatherIcon %>"></div>
                             <span class="two">
-                                <h4><%= new Date(day.time).toLocaleDateString("en-US", { weekday: "long" }) %></h4>
+                                <span><p class="large"><%= new Date(day.time).toLocaleDateString("en-US", { weekday: "long" }) %></p><p class="three"><%= ((day.minWeatherTemp + day.maxWeatherTemp) / 2).toFixed(1) %>°</p></span>
                                 <p><%= day.weatherDes %></p>
-                            </span>
-                            <p class="three"><%= ((day.minWeatherTemp + day.maxWeatherTemp) / 2).toFixed(1) %>°</p>
+                            </span>                        
+                            <div class="one"><img src="<%= day.weatherIcon %>"></div>                            
                         </div>
                 <% }) %>
                 
@@ -203,21 +34,4 @@
             </div>
         </section>
 
-        <div class="select">
-            <div class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-timer-icon lucide-timer"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg></div>
-            <div class="tab active"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></div>
-            <div class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up-down-icon lucide-trending-up-down"><path d="M14.828 14.828 21 21"/><path d="M21 16v5h-5"/><path d="m21 3-9 9-4-4-6 6"/><path d="M21 8V3h-5"/></svg></div>
-        </div>
-    </div>    
-
-    <script>
-        const tabs = document.querySelectorAll(".tab")
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-            });
-        });
-    </script>
-</body>
-</html>
+<%- include('bottom.ejs') %>

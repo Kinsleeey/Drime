@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drime</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+                }
+
+        body {
+            color: black;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .parent {
+            width: 90%;
+            max-width: 390px;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin: 1rem auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem;
+        }
+        header span {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            justify-content: center;
+        }
+        .logo-div {
+            margin-right: 0.3rem;
+            display: flex;
+        }
+
+        .location {
+            background: black;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .select {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            border-radius: 5rem;
+            padding: 5px 20px;
+            background-color: #F7F7F8;
+            border: 1px solid #E5E5E7;
+            width: 35%;
+            margin: 0 auto 1.5rem auto;
+        }
+        .tab {
+            background: #F7F7F8;;
+            border-radius: 5rem;
+            color: black;
+            padding: 5px 7px;
+            border: white;
+            display: flex;
+            align-items: center;
+        }
+        .active {
+            border: black;
+            background: black;
+            color: white;
+        }
+        .tab:hover {
+            background: black;
+            color: white;
+        }
+        .week {
+            margin: 1.5rem;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .today {
+            text-align: center;
+            background-color: #F7F7F8;
+            width: 70%;
+            margin: 0 auto 0 auto;
+            border: 1px solid#E5E5E7;
+            border-radius: 30px;
+            font-size: 10px;
+            padding: 1rem;
+        }
+        .weather-icon {
+            width: 100px;
+            height: 100px;
+
+        }
+        .weather-icon img {
+            width: 115%;
+            height: 115%;
+            position: relative;
+            left: -7%;
+            top: -2%;
+        }
+        .flex {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .today h1 {
+            font-size: 40px;
+        }
+        .today p {
+            color: #4B4B4D
+        }
+
+        .day {
+            font-size: 10px;
+            width: 100%;
+            border: 1px solid#E5E5E7;    
+            border-radius: 15px;
+            display: flex;
+            padding: 0.5rem;
+            justify-content:space-around;
+            align-items: center;
+        }
+        
+        .day .two {
+            width: 65%;
+        }
+        .day .one {
+            width: 30px;
+            height: 30px;
+        }
+        .one img {
+            width: 125%;
+            height: 125%;
+            position: relative;
+            left: -10%;
+            top: -10%;
+        }
+        .loc-time {
+            margin: 0.3rem;
+            display: flex;
+            justify-content: space-around;
+        }
+        .two span {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            
+        }
+
+        .large {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        .three {
+            font-size: 8px;
+        }
+
+        /*TIME PAGE CSS*/
+
+
+
+
+        .bar {
+            background-color: black;
+            width: 15px;
+            border-radius: 10px;
+
+        }
+        
+        .graph {
+            display: flex;
+            justify-content: space-around;
+            align-items:flex-end;
+            font-size: 7px;
+            position: relative;
+            border-radius: 10px;
+        }
+        .a {
+            height: 107px;
+        }
+        .b {
+            height: 28px;
+        }
+        .c {
+            height: 164px;
+        }
+        .d {
+            height: 93px;
+        }
+        .e {
+            height: 170px;
+        }
+        .f {
+            height: 146px;
+        }
+        .g {
+            height: 137px;
+        }
+        .h {
+            height: 129px;
+        }
+        .i {
+            height: 72px;
+        }
+        .j {
+            height: 35px;
+        }
+        .k {
+            height: 30px;
+        }
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .divider {
+            width: 95%;
+            position: absolute;
+            border-bottom: 1px dashed black;
+            bottom: 50%;
+        }
+        
+        .optimum {
+            border-radius: 10px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            align-items: center;
+            background-color: #F7F7F8;
+            border: 1px solid#E5E5E7;
+            font-weight: bold;
+            margin: 0 auto 1.5rem auto;
+            padding: 1rem;
+        }
+        .card {
+            width: 100%;
+            border: 1px solid#E5E5E7;    
+            border-radius: 15px;
+            font-size: 10px;
+            text-align: center;
+            padding: 0.5rem;
+        }
+        
+        .forcast {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        .bold {
+            font-weight: bold;
+            font-size: 10px;
+            color: rgb(147, 146, 146);
+        }
+        h2 {
+            text-align: center;
+            font-size: 15PX;
+        }
+        .margin {
+            margin: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <header>
+            <span>
+                <div class="logo-div"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-fading-icon lucide-clock-fading"><path d="M12 2a10 10 0 0 1 7.38 16.75"/><path d="M12 6v6l4 2"/><path d="M2.5 8.875a10 10 0 0 0-.5 3"/><path d="M2.83 16a10 10 0 0 0 2.43 3.4"/><path d="M4.636 5.235a10 10 0 0 1 .891-.857"/><path d="M8.644 21.42a10 10 0 0 0 7.631-.38"/></svg></div><h4>DRIME</h4>
+            </span>
+            <a class="location" href="/">Location</a>
+        </header>

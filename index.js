@@ -124,7 +124,9 @@ app.get("/weather", async(req, res) => {
 app.get("/time", (req, res) => {
     res.render("time.ejs")
 })
-
+app.get("/forcast", (req, res) => {
+    res.send("Coming soon")
+})
 
 
 app.listen(port, () => {
